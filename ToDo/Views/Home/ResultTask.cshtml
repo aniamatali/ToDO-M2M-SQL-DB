@@ -1,9 +1,14 @@
+
 <p>@Model["category"].GetName()</p>
 
-@foreach (var task in @Model["tasks"])
+@if (@Model["tasks"].Count != 0)
 {
-<p>@task.GetDescription()    @task.GetDueDate()</p>
+  @foreach (var task in @Model["tasks"])
+  {
+  @task.GetId() @task.GetDescription()
+  }
 }
+
 
 
 

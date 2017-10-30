@@ -37,7 +37,21 @@ namespace ToDoList.Controllers
         model.Add("category", selectedCategory);
         model.Add("tasks", categoryTasks);
         return View(model);
+      }
 
+      [HttpPost("/Categories/{id}")]
+      public ActionResult ResultTask2(int id)
+      {
+        string taskDescription = Request.Form["inputTask"];
+        Task newTask = new Task(taskDescription,(Request.Form["inputDate"]));
+        newTask.Save();
+        Dictionary<string, object> model = new Dictionary<string, object>();
+        Category selectedCategory = Category.Find(Int32.Parse(Request.Form["category-id"]));
+        selectedCategory.AddTask(newTask);
+        List<Task> categoryTasks = selectedCategory.GetTasks();
+        model.Add("tasks", categoryTasks);
+        model.Add("category", selectedCategory);
+        return View("ResultTask", model);
       }
 
       [HttpGet("/Categories/{id}/tasks/new")]
@@ -51,22 +65,7 @@ namespace ToDoList.Controllers
         return View(model);
       }
 
-      [HttpPost("/Categories/{id}")]
-      public ActionResult ResultTask2(int id)
-      {
-        string taskDescription = Request.Form["inputTask"];
-        Task newTask = new Task(taskDescription,(Request.Form["inputDate"]));
-        newTask.Save();
 
-        Dictionary<string, object> model = new Dictionary<string, object>();
-        Category selectedCategory = Category.Find(Int32.Parse(Request.Form["category-id"]));
-        List<Task> categoryTasks = selectedCategory.GetTasks();
-        model.Add("tasks", categoryTasks);
-        model.Add("category", selectedCategory);
-
-
-        return View("ResultTask", model);
-      }
 
       [HttpPost("/Tasks/Delete")]
       public ActionResult DeletePage2()
@@ -79,9 +78,9 @@ namespace ToDoList.Controllers
       public ActionResult DeleteCategory(int id)
       {
         Category foundCategory = Category.Find(id);
-        foreach (Task task in foundCategory.GetTasks())
+        foreach (Task classTask in foundCategory.GetTasks())
           {
-            task.DeleteTasks();
+            classTask.DeleteTasks();
           }
         foundCategory.DeleteCategory();
         return View("DeletePage3");
