@@ -81,22 +81,27 @@ namespace ToDoList.Tests
       //Assert
       Assert.AreEqual(testCategory, foundCategory);
     }
+
     [TestMethod]
-    public void GetTasks_RetrievesAllTasksWithCategory_TaskList()
+    public void Delete_DeletesCategoryAssociationsFromDatabase_CategoryList()
     {
-      Category testCategory = new Category("Household chores");
+      //Arrange
+      Task testTask = new Task("Mow the lawn", "1");
+      testTask.Save();
+
+      string testName = "Home stuff";
+      Category testCategory = new Category(testName);
       testCategory.Save();
 
-      Task firstTask = new Task("Mow the lawn", testCategory.GetId());
-      firstTask.Save();
-      Task secondTask = new Task("Do the dishes", testCategory.GetId());
-      secondTask.Save();
+      //Act
+      testCategory.AddTask(testTask);
+      testCategory.DeleteCategory();
 
+      List<Category> resultTaskCategories = testTask.GetCategories();
+      List<Category> testTaskCategories = new List<Category> {};
 
-      List<Task> testTaskList = new List<Task> {firstTask, secondTask};
-      List<Task> resultTaskList = testCategory.GetTasks();
-
-      CollectionAssert.AreEqual(testTaskList, resultTaskList);
+      //Assert
+      CollectionAssert.AreEqual(testTaskCategories, resultTaskCategories);
     }
 
     public void Dispose()
