@@ -117,7 +117,7 @@ namespace ToDoList.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT task_id FROM categories_tasks WHERE category_id = @CategoryId;";
+      cmd.CommandText = @"SELECT tasks.* FROM categories JOIN categories_tasks ON (categories.id = categories_tasks.category_id) JOIN tasks ON (categories_tasks.task_id = tasks.id) WHERE categories.id = @CategoryId;";
 
       MySqlParameter categoryId = new MySqlParameter();
       categoryId.ParameterName = "@CategoryId";
@@ -125,36 +125,15 @@ namespace ToDoList.Models
       cmd.Parameters.Add(categoryId);
 
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      List<Task> tasks = new List<Task>{};
 
-      List<int> taskIds = new List<int> {};
       while(rdr.Read())
       {
         int taskId = rdr.GetInt32(0);
-        taskIds.Add(taskId);
-      }
-      rdr.Dispose();
-
-      List<Task> tasks = new List<Task> {};
-      foreach (int taskId in taskIds)
-      {
-        var taskQuery = conn.CreateCommand() as MySqlCommand;
-        taskQuery.CommandText = @"SELECT * FROM tasks WHEREid = @TaskId;";
-
-        MySqlParameter taskIdParameter = new MySqlParameter();
-        taskIdParameter.ParameterName = "@TaskId";
-        taskIdParameter.Value = taskId;
-        taskQuery.Parameters.Add(taskId);
-
-        var taskQueryRdr = taskQuery.ExecuteReader() as MySqlDataReader;
-        while(taskQueryRdr.Read())
-        {
-          int thisTaskId = taskQueryRdr.GetInt32(0);
-          string taskDescription = taskQueryRdr.GetString(1);
-          string taskDueDate = taskQueryRdr.GetString(2);
-          Task foundTask = new Task(taskDescription, taskDueDate, thisTaskId);
-          tasks.Add(foundTask);
-        }
-        taskQueryRdr.Dispose();
+        string taskDescription = rdr.GetString(1);
+        string taskDueDate = rdr.GetString(2);
+        Task newTask = new Task(taskDescription, taskDueDate, taskId);
+        tasks.Add(newTask);
       }
       conn.Close();
       if (conn != null)
