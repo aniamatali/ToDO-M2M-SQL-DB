@@ -66,8 +66,7 @@ namespace ToDoList.Controllers
       }
 
 
-
-      [HttpPost("/Tasks/Delete")]
+      [HttpPost("/TaskList")]
       public ActionResult DeletePage2()
       {
         Task.DeleteAll();

@@ -1,8 +1,8 @@
 /Users/Guest/Desktop/SQL-DB/ToDo/bin/Debug/netcoreapp1.1/ToDo.deps.json
 /Users/Guest/Desktop/SQL-DB/ToDo/bin/Debug/netcoreapp1.1/ToDo.runtimeconfig.json
 /Users/Guest/Desktop/SQL-DB/ToDo/bin/Debug/netcoreapp1.1/ToDo.runtimeconfig.dev.json
-/Users/Guest/Desktop/SQL-DB/ToDo/obj/Debug/netcoreapp1.1/ToDo.AssemblyInfo.cs
 /Users/Guest/Desktop/SQL-DB/ToDo/bin/Debug/netcoreapp1.1/ToDo.dll
 /Users/Guest/Desktop/SQL-DB/ToDo/bin/Debug/netcoreapp1.1/ToDo.pdb
+/Users/Guest/Desktop/SQL-DB/ToDo/obj/Debug/netcoreapp1.1/ToDo.AssemblyInfo.cs
 /Users/Guest/Desktop/SQL-DB/ToDo/obj/Debug/netcoreapp1.1/ToDo.dll
 /Users/Guest/Desktop/SQL-DB/ToDo/obj/Debug/netcoreapp1.1/ToDo.pdb

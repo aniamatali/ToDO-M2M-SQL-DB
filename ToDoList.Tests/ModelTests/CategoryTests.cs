@@ -104,6 +104,30 @@ namespace ToDoList.Tests
       CollectionAssert.AreEqual(testTaskCategories, resultTaskCategories);
     }
 
+    [TestMethod]
+    public void Test_AddTask_AddsTaskToCategory()
+    {
+      //Arrange
+      Category testCategory = new Category("Household chores");
+      testCategory.Save();
+
+      Task testTask = new Task("Mow the lawn", "1-1-1");
+      testTask.Save();
+
+      Task testTask2 = new Task("Water the garden", "1-2-3");
+      testTask2.Save();
+
+      //Act
+      testCategory.AddTask(testTask);
+      testCategory.AddTask(testTask2);
+
+      List<Task> result = testCategory.GetTasks();
+      List<Task> testList = new List<Task>{testTask, testTask2};
+
+      //Assert
+      CollectionAssert.AreEqual(testList, result);
+    }
+
     public void Dispose()
     {
       Task.DeleteAll();
